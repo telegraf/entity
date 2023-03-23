@@ -16,8 +16,6 @@ jobs:
     - name: Publish to npm
       run : |
         npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-        npm prepare
-        cd .npm
-        npm publish --ignore-scripts --access=public
+        cd .npm && npm publish --ignore-scripts --access=public
       env :
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
