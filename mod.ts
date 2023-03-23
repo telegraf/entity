@@ -9,12 +9,12 @@ const filterFromIndex = <T>(xs: T[], index: number, when: (x: T, index: number) 
 	return ret;
 };
 
-type Message = { text: string; entities?: MessageEntity[] } | { caption: string; caption_entities?: MessageEntity[] };
+type Message = { text: string; entities?: MessageEntity[] } | { caption?: string; caption_entities?: MessageEntity[] };
 
 const serialiseWith =
 	(serialiser: typeof serialisers.HTML) =>
 	(message: Message): string => {
-		const msg = "caption" in message ? { text: message.caption, entities: message.caption_entities } : message;
+		const msg = "text" in message ? message : { text: message.caption || "", entities: message.caption_entities };
 		if (!msg.entities || msg.entities.length === 0) return serialiser(msg.text);
 
 		const text = msg.text;
