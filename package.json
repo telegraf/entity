@@ -1,5 +1,5 @@
 {
-	"name": "@telegraf/entities",
+	"name": "@telegraf/entity",
 	"version": "0.0.0-dev",
 	"description": "Convert from Telegram entities to HTML or Markdown",
 	"main": ".npm/script/mod.js",
