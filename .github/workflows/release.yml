@@ -16,8 +16,9 @@ jobs:
     - name: Publish to npm
       run : |
         npm config set //registry.npmjs.org/:_authToken ${NPM_TOKEN}
-        npm publish --ignore-scripts ${GITHUB_REF:11}
-      # GITHUB_REF looks like: refs/tags/v0.1.0
-      # :11 slices from the 11th position, aka 0.1.0
+        npm publish --ignore-scripts
       env :
         NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        VERSION: ${{ GITHUB_REF:11 }}
+      # GITHUB_REF looks like: refs/tags/v0.1.0
+      # :11 slices from the 11th position, aka 0.1.0

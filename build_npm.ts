@@ -1,6 +1,11 @@
 import { build, emptyDir } from "https://deno.land/x/dnt@0.33.1/mod.ts";
 import pkg from "./package.json" assert { type: "json" };
 
+const version = Deno.env.get("VERSION");
+
+if (!version)
+	throw new Error("VERSION environment variable not found. Use similar to `VERSION=0.1.0 deno run -A build_npm.ts`");
+
 await emptyDir("./.npm");
 
 // @ts-ignore
@@ -12,7 +17,7 @@ await build({
 	shims: {},
 	test: false,
 	mappings: { "https://deno.land/x/typegram@v5.0.0/mod.ts": { name: "typegram", version: "^5.0.0" } },
-	package: { ...pkg, version: Deno.args[0] },
+	package: { ...pkg, version },
 });
 
 // post build steps
