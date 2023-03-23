@@ -9,16 +9,19 @@ const filterFromIndex = <T>(xs: T[], index: number, when: (x: T, index: number) 
 	return ret;
 };
 
+type Message = { text: string; entities?: MessageEntity[] } | { caption: string; caption_entities?: MessageEntity[] };
+
 const serialiseWith =
 	(serialiser: typeof serialisers.HTML) =>
-	(message: { text: string; entities?: MessageEntity[] }): string => {
-		if (!message.entities || message.entities.length === 0) return serialiser(message.text);
+	(message: Message): string => {
+		const msg = "caption" in message ? { text: message.caption, entities: message.caption_entities } : message;
+		if (!msg.entities || msg.entities.length === 0) return serialiser(msg.text);
 
-		const text = message.text;
+		const text = msg.text;
 		let ret = "";
 		let index = 0;
 
-		const entities = message.entities.sort((a, b) => a.offset - b.offset);
+		const entities = msg.entities.sort((a, b) => a.offset - b.offset);
 
 		for (let i = 0; i < entities.length; i++) {
 			const entity = entities[i];
@@ -35,8 +38,6 @@ const serialiseWith =
 
 			const match = text.slice(entity.offset, ends);
 
-			console.log(entity, index, ends, text);
-			console.log({ match, type: entity.type });
 			const serialisedMatch = serialiseWith(serialiser)({ text: match, entities: inside });
 			ret += serialiser(serialisedMatch, entity, !Boolean(inside.length));
 
