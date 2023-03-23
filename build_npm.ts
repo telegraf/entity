@@ -1,4 +1,4 @@
-import { build, emptyDir } from "https://deno.land/x/dnt@0.32.1/mod.ts";
+import { build, emptyDir } from "https://deno.land/x/dnt@0.33.1/mod.ts";
 import pkg from "./package.json" assert { type: "json" };
 
 await emptyDir("./.npm");
@@ -9,7 +9,8 @@ delete pkg.main, delete pkg.types, delete pkg.scripts;
 await build({
 	entryPoints: ["./mod.ts"],
 	outDir: "./.npm",
-	shims: { deno: { test: "dev" } },
+	shims: {},
+	test: false,
 	mappings: { "https://deno.land/x/typegram@v5.0.0/mod.ts": { name: "typegram", version: "^5.0.0" } },
 	package: { ...pkg, version: Deno.args[0] },
 });
