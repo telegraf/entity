@@ -22,6 +22,8 @@ Usage is very straightforward!
 
 ```TS
 import { toHTML, toMarkdownV2 } from "@telegraf/entity";
+// if Deno:
+// import { toHTML, toMarkdownV2 } from "https://deno.land/x/telegraf_entity";
 
 bot.on(message("text"), async ctx => {
 	const html = toHTML(ctx.message); // convert text to HTML string
