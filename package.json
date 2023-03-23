@@ -1,0 +1,28 @@
+{
+	"name": "@telegraf/entities",
+	"version": "0.0.0-dev",
+	"description": "Convert from Telegram entities to HTML or Markdown",
+	"main": ".npm/script/mod.js",
+	"types": ".npm/types/mod.d.ts",
+	"keywords": [
+		"Telegram",
+		"entities",
+		"HTML",
+		"Markdown"
+	],
+	"author": "Muthu Kumar <@MKRhere> (https://mkr.pw)",
+	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/telegraf/entities.git"
+	},
+	"bugs": {
+		"url": "https://github.com/telegraf/entities/issues"
+	},
+	"scripts": {
+		"prepare": "deno run -A ./build_npm.ts"
+	},
+	"devDependencies": {
+		"deno-bin": "^1.31.3"
+	}
+}
