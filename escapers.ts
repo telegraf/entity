@@ -9,7 +9,7 @@ export const HTML = (() => {
 
 	const toEscape = /<|>|&/g;
 
-	return (s: string) => s.replaceAll(toEscape, r => escapables[r as keyof typeof escapables] || r);
+	return (s: string) => s.replace(toEscape, r => escapables[r as keyof typeof escapables] || r);
 })();
 
 export const MarkdownV2 = (() => {
@@ -36,5 +36,5 @@ export const MarkdownV2 = (() => {
 
 	const toEscape = new RegExp("[" + Object.values(escapables).join("") + "]", "g");
 
-	return (s: string) => s.replaceAll(toEscape, r => escapables[r as keyof typeof escapables] || r);
+	return (s: string) => s.replace(toEscape, r => escapables[r as keyof typeof escapables] || r);
 })();
