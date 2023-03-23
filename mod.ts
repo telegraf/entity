@@ -1,4 +1,4 @@
-import type { MessageEntity } from "https://esm.sh/typegram@4.3.0";
+import type { MessageEntity } from "https://deno.land/x/typegram@v5.0.0/mod.ts";
 import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 
