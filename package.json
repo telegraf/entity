@@ -14,10 +14,10 @@
 	"license": "MIT",
 	"repository": {
 		"type": "git",
-		"url": "git+https://github.com/telegraf/entities.git"
+		"url": "git+https://github.com/telegraf/entity.git"
 	},
 	"bugs": {
-		"url": "https://github.com/telegraf/entities/issues"
+		"url": "https://github.com/telegraf/entity/issues"
 	},
 	"scripts": {
 		"prepare": "deno run -A ./build_npm.ts"
