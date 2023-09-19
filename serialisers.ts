@@ -1,10 +1,7 @@
-import type { MessageEntity } from "https://deno.land/x/typegram@v5.0.0/mod.ts";
-import * as escapers from "./escapers.ts";
+import type { Serialiser, Node } from "./types.ts";
 
-export function HTML(match: string, entity?: MessageEntity, escape = true): string {
-	match = escape ? escapers.HTML(match) : match;
-
-	switch (entity?.type) {
+export const HTML: Serialiser = (match: string, node?: Node) => {
+	switch (node?.type) {
 		case "bold":
 			return `<b>${match}</b>`;
 		case "italic":
@@ -16,16 +13,16 @@ export function HTML(match: string, entity?: MessageEntity, escape = true): stri
 		case "code":
 			return `<code>${match}</code>`;
 		case "pre":
-			if (entity.language) return `<pre><code class="language-${entity.language}">${match}</code></pre>`;
+			if (node.language) return `<pre><code class="language-${node.language}">${match}</code></pre>`;
 			return `<pre>${match}</pre>`;
 		case "spoiler":
 			return `<span class="tg-spoiler">${match}</span>`;
 		case "url":
-			return `<a href="${match}">${match}</a>`;
+			return `<a href="${node.text}">${match}</a>`;
 		case "text_link":
-			return `<a href="${entity.url}">${match}</a>`;
+			return `<a href="${node.url}">${match}</a>`;
 		case "text_mention":
-			return `<a href="tg://user?id=${entity.user.id}">${match}</a>`;
+			return `<a href="tg://user?id=${node.user.id}">${match}</a>`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
@@ -36,12 +33,10 @@ export function HTML(match: string, entity?: MessageEntity, escape = true): stri
 		default:
 			return match;
 	}
-}
+};
 
-export function MarkdownV2(match: string, entity?: MessageEntity, escape = true): string {
-	match = escape ? escapers.MarkdownV2(match) : match;
-
-	switch (entity?.type) {
+export function MarkdownV2(match: string, node?: Node): string {
+	switch (node?.type) {
 		case "bold":
 			return `*${match}*`;
 		case "italic":
@@ -53,16 +48,16 @@ export function MarkdownV2(match: string, entity?: MessageEntity, escape = true)
 		case "code":
 			return `\`${match}\``;
 		case "pre":
-			if (entity.language) return "```" + entity.language + "\n" + match + "\n```";
+			if (node.language) return "```" + node.language + "\n" + match + "\n```";
 			return "```\n" + match + "\n```";
 		case "spoiler":
 			return `||${match}||`;
 		case "url":
 			return match;
 		case "text_link":
-			return `[${match}](${entity.url})`;
+			return `[${match}](${node.url})`;
 		case "text_mention":
-			return `[${match}](tg://user?id=${entity.user.id})`;
+			return `[${match}](tg://user?id=${node.user.id})`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
