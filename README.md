@@ -1,14 +1,10 @@
-# `@telegraf/entity`
+# `@telegraf/entity` [![Deno shield](https://img.shields.io/static/v1?label=Built%20for&message=Deno&style=flat-square&logo=deno&labelColor=000&color=fff)](https://deno.land/x/telegraf_entity) [![Bun shield](https://img.shields.io/static/v1?label=Ready%20for&message=Bun&style=flat-square&logo=bun&labelColor=101115&color=fff)](https://npmjs.com/package/@telegraf/entity) [![NPM version](https://img.shields.io/npm/v/@telegraf/entity?color=e74625&style=flat-square)](https://npmjs.com/package/@telegraf/entity)
 
 Convert Telegram entities to HTML or Markdown.
 
-[![Deno shield](https://img.shields.io/static/v1?label=Built%20for&message=Deno&style=for-the-badge&logo=deno&labelColor=000&color=fff)](https://deno.land/x/telegraf_entity)
-
-[![NPM version](https://img.shields.io/npm/v/@telegraf/entity?color=e74625&style=for-the-badge)](https://npmjs.com/package/@telegraf/entity)
-
 > ⚠️ Before you start using this module, consider using [`copyMessage`](https://core.telegram.org/bots/api#copymessage) instead.
 >
-> This module will produce [Telegram-compatible](https://core.telegram.org/bots/api#formatting-options) HTML or MarkdownV2, however it is better to simply pass the text and entities back to Telegram rather than converting to HTML or Markdown.
+> This module will produce [Telegram-compatible](https://core.telegram.org/bots/api#formatting-options) HTML or MarkdownV2. However it is better to simply pass the text and entities back to Telegram rather than converting to HTML or Markdown.
 >
 > This module is really for the rare cases where you want to convert Telegram-formatted text for consumption outside of Telegram.
 
@@ -31,7 +27,7 @@ bot.on(message("text"), async ctx => {
 });
 ```
 
-Both functions will also just work with captioned messages like photos.
+Both functions will also just work with captioned messages like photos or videos.
 
 ```TS
 bot.on(message("photo"), async ctx => {
@@ -46,29 +42,43 @@ You can also directly pass just a text and entities object:
 toHTML({ text: '...', entities: [...] }); // HTML string
 ```
 
+---
+
 ## Advanced usage
 
-By default we produce HTML or Markdown compatible with Telegram, you may want to serialise differently. This module exposes a way to do this: `serialiseWith`. To use this, you must first implement a serialiser with the following type:
+`toHTML` and `toMarkdown` produce HTML or Markdown compatible with Telegram because it's a sensible default for a Telegram library. You may want to serialise differently, to target a different system. This module exposes a way to do this: `serialiseWith`.
+
+To use this, you must first implement a serialiser with the following type:
 
 ```TS
-/**
- * @param match will always be a string
- * @param entity will be undefined for plain text; otherwise the entity
- * @param escape whether or not to escape the inner text
- * @note Serialiser will be called recursively for nested entities, so we don't want to double-serialise
- */
-function myHTMLSerialiser (match: string, entity?: MessageEntity, escape = true): string {
+import type { Serialiser } from "@telegraf/entity";
+
+const myHTMLSerialiser: Serialiser (match, node) {
 	// implement
 }
 ```
 
-Refer to the implementation of the [builtin serialisers](https://github.com/telegraf/entity/blob/master/serialisers.ts) for something you can simply copy-paste and edit until you're satisfied.
+Each matched node will be passed to your function, and you only need to wrap it however you want.
+
+Refer to the implementation of the [builtin serialisers](https://github.com/telegraf/entity/blob/master/serialisers.ts) for something you can simply copy-paste and edit to satisfaction.
 
 The builtin escapers are also exported for your convenience:
 
 ```TS
-import { escapers } from "@telegraf/entity";
+import { escapers, type Escaper } from "@telegraf/entity";
 
 escapers.HTML(text); // HTML escaped text
 escapers.MarkdownV2(text); // escaped for Telegram's MarkdownV2
+
+// or
+const yourEscaper: Escaper = match => { /* implement */ };
+```
+
+By using both of these tools, you can implement your own HTML serialiser like so:
+
+```TS
+import { serialiseWith, escapers } from "@telegraf/entity";
+
+const serialise = serialiseWith(myHTMLSerialiser, escapers.HTML);
+serialise(ctx.message);
 ```
