@@ -17,7 +17,14 @@ await build({
 	outDir: "./.npm",
 	shims: {},
 	test: false,
-	mappings: { "https://deno.land/x/typegram@v5.0.0/mod.ts": { name: "typegram", version: "^5.0.0" } },
+	mappings: {
+		"https://deno.land/x/telegraf_types@v6.8.1/message.ts": {
+			name: "@telegraf/types",
+			version: "^6.8.1",
+		},
+	},
+	packageManager: "pnpm",
+	esModule: false,
 	package: { ...pkg, version },
 });
 

@@ -20,6 +20,7 @@
 		"url": "https://github.com/telegraf/entity/issues"
 	},
 	"scripts": {
+		"test": "deno test",
 		"prepare": "deno run -A ./build_npm.ts"
 	},
 	"devDependencies": {
