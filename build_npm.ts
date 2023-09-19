@@ -23,7 +23,6 @@ await build({
 			version: "^6.8.1",
 		},
 	},
-	packageManager: "pnpm",
 	esModule: false,
 	package: { ...pkg, version },
 });
