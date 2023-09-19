@@ -1,4 +1,4 @@
-import type { MessageEntity } from "https://deno.land/x/typegram@v5.0.0/mod.ts";
+import type { MessageEntity } from "./deps.ts";
 import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 
@@ -34,7 +34,7 @@ const serialiseWith =
 
 			const inside = filterFromIndex(entities, i + 1, entity => entity.offset < ends)
 				// reduce offset to match the new text we're going to send
-				.map(each => ((each.offset -= entity.offset), each));
+				.map(each => ({ ...each, offset: each.offset - entity.offset }));
 
 			const match = text.slice(entity.offset, ends);
 
