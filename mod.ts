@@ -2,6 +2,7 @@ import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 import type { Message, TextMessage, Tree, MessageEntity } from "./types.ts";
 
+// https://github.com/tdlib/td/blob/d79bd4b69403868897496da39b773ab25c69f6af/td/telegram/MessageEntity.cpp#L39
 const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
 	mention: 50,
 	hashtag: 50,
@@ -90,13 +91,15 @@ const serialiseWith =
 		if (!msg.entities || msg.entities.length === 0) return serialiser(msg.text);
 
 		const entities = msg.entities.sort((a, b) => {
-			if (a.offset !== b.offset) {
-				return a.offset < b.offset ? -1 : 1;
-			}
-			if (a.length !== b.length) {
-				return a.length > b.length ? -1 : 1;
-			}
-			return TYPE_PRIORITY[a.type] < TYPE_PRIORITY[b.type] ? -1 : 1;
+			if(a.offset < b.offset) return -1;
+			if(a.offset > b.offset) return 1;
+			if (a.length > b.length) return -1;
+			if (a.length < b.length) return 1;
+			const a_priority = TYPE_PRIORITY[a.type];
+			const b_priority = TYPE_PRIORITY[b.type];
+			if (a_priority < b_priority) return -1;
+			if (a_priority > b_priority) return 1;
+			return 0;
 		});
 
 		return serialse(toTree({ text: msg.text, entities }), serialiser, escaper);
