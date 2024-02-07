@@ -94,7 +94,7 @@ const serialiseWith =
 				return a.offset < b.offset ? -1 : 1;
 			}
 			if (a.length !== b.length) {
-				return a.length < b.length ? -1 : 1;
+				return a.length > b.length ? -1 : 1;
 			}
 			return TYPE_PRIORITY[a.type] < TYPE_PRIORITY[b.type] ? -1 : 1;
 		});
