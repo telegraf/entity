@@ -91,8 +91,8 @@ const serialiseWith =
 		if (!msg.entities || msg.entities.length === 0) return serialiser(msg.text);
 
 		const entities = msg.entities.sort((a, b) => {
-			if(a.offset < b.offset) return -1;
-			if(a.offset > b.offset) return 1;
+			if (a.offset < b.offset) return -1;
+			if (a.offset > b.offset) return 1;
 			if (a.length > b.length) return -1;
 			if (a.length < b.length) return 1;
 			const a_priority = TYPE_PRIORITY[a.type];
