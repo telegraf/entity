@@ -2,6 +2,29 @@ import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 import type { Message, TextMessage, Tree, MessageEntity } from "./types.ts";
 
+// https://github.com/tdlib/td/blob/d79bd4b69403868897496da39b773ab25c69f6af/td/telegram/MessageEntity.cpp#L39
+const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
+	mention: 50,
+	hashtag: 50,
+	bot_command: 50,
+	url: 50,
+	email: 50,
+	bold: 90,
+	italic: 91,
+	code: 20,
+	pre: 11,
+	text_link: 49,
+	text_mention: 49,
+	cashtag: 50,
+	phone_number: 50,
+	underline: 92,
+	strikethrough: 93,
+	// @ts-expect-error hasn't landed in telegraf/types yet.
+	blockquote: 0,
+	spoiler: 94,
+	custom_emoji: 99,
+};
+
 function findChildren(fromEntityIndex: number, parent: MessageEntity, entities: MessageEntity[]) {
 	const ret: MessageEntity[] = [];
 
@@ -19,7 +42,7 @@ const ends = (entity: MessageEntity) => entity.offset + entity.length;
 export function toTree(msg: TextMessage, offset = 0, upto = Infinity) {
 	if (!msg.entities?.length) return [msg.text.slice(offset, upto)];
 
-	let nodes: Tree = [];
+	const nodes: Tree = [];
 
 	let last = offset;
 
@@ -74,6 +97,10 @@ const serialiseWith =
 			if (a.offset > b.offset) return 1;
 			if (a.length > b.length) return -1;
 			if (a.length < b.length) return 1;
+			const a_priority = TYPE_PRIORITY[a.type];
+			const b_priority = TYPE_PRIORITY[b.type];
+			if (a_priority < b_priority) return -1;
+			if (a_priority > b_priority) return 1;
 			return 0;
 		});
 
