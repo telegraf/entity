@@ -2,6 +2,26 @@ import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 import type { Message, TextMessage, Tree, MessageEntity } from "./types.ts";
 
+const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
+	mention: 50,
+	hashtag: 50,
+	bot_command: 50,
+	url: 50,
+	email: 50,
+	bold: 90,
+	italic: 91,
+	code: 20,
+	pre: 11,
+	text_link: 49,
+	text_mention: 49,
+	cashtag: 50,
+	phone_number: 50,
+	underline: 92,
+	strikethrough: 93,
+	spoiler: 94,
+	custom_emoji: 99,
+};
+
 function findChildren(fromEntityIndex: number, parent: MessageEntity, entities: MessageEntity[]) {
 	const ret: MessageEntity[] = [];
 
@@ -70,11 +90,13 @@ const serialiseWith =
 		if (!msg.entities || msg.entities.length === 0) return serialiser(msg.text);
 
 		const entities = msg.entities.sort((a, b) => {
-			if (a.offset < b.offset) return -1;
-			if (a.offset > b.offset) return 1;
-			if (a.length > b.length) return -1;
-			if (a.length < b.length) return 1;
-			return 0;
+			if (a.offset !== b.offset) {
+				return a.offset < b.offset ? -1 : 1;
+			}
+			if (a.length !== b.length) {
+				return a.length < b.length ? -1 : 1;
+			}
+			return TYPE_PRIORITY[a.type] < TYPE_PRIORITY[b.type] ? -1 : 1;
 		});
 
 		return serialse(toTree({ text: msg.text, entities }), serialiser, escaper);
