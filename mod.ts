@@ -40,7 +40,7 @@ const ends = (entity: MessageEntity) => entity.offset + entity.length;
 export function toTree(msg: TextMessage, offset = 0, upto = Infinity) {
 	if (!msg.entities?.length) return [msg.text.slice(offset, upto)];
 
-	let nodes: Tree = [];
+	const nodes: Tree = [];
 
 	let last = offset;
 
