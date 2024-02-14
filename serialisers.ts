@@ -23,6 +23,8 @@ export const HTML: Serialiser = (match: string, node?: Node) => {
 			return `<a href="${node.url}">${match}</a>`;
 		case "text_mention":
 			return `<a href="tg://user?id=${node.user.id}">${match}</a>`;
+		case "blockquote":
+			return `<blockquote>${match}</blockquote>`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
@@ -58,6 +60,8 @@ export function MarkdownV2(match: string, node?: Node): string {
 			return `[${match}](${node.url})`;
 		case "text_mention":
 			return `[${match}](tg://user?id=${node.user.id})`;
+		case "blockquote":
+			return `${match.split("\n").map((line) => `>${line}`).join("\n")}`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
