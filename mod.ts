@@ -19,7 +19,6 @@ const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
 	phone_number: 50,
 	underline: 92,
 	strikethrough: 93,
-	// @ts-expect-error hasn't landed in telegraf/types yet.
 	blockquote: 0,
 	spoiler: 94,
 	custom_emoji: 99,
