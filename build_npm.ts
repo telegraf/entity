@@ -18,9 +18,9 @@ await build({
 	shims: {},
 	test: false,
 	mappings: {
-		"https://deno.land/x/telegraf_types@v6.8.1/message.ts": {
+		"https://deno.land/x/telegraf_types@v7.0.1/message.ts": {
 			name: "@telegraf/types",
-			version: "^6.8.1",
+			version: "^7.0.1",
 		},
 	},
 	esModule: false,
