@@ -25,6 +25,8 @@ export const HTML: Serialiser = (match: string, node?: Node) => {
 			return `<a href="tg://user?id=${node.user.id}">${match}</a>`;
 		case "blockquote":
 			return `<blockquote>${match}</blockquote>`;
+		case "expandable_blockquote":
+			return `<blockquote expandable>${match}</blockquote>`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
@@ -62,6 +64,8 @@ export function MarkdownV2(match: string, node?: Node): string {
 			return `[${match}](tg://user?id=${node.user.id})`;
 		case "blockquote":
 			return `${match.split("\n").map((line) => `>${line}`).join("\n")}`;
+		case "expandable_blockquote":
+			return `**${match.split("\n").map((line) => `>${line}`).join("\n")}||`;
 		case "mention":
 		case "custom_emoji":
 		case "hashtag":
