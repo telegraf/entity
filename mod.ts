@@ -20,6 +20,7 @@ const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
 	underline: 92,
 	strikethrough: 93,
 	blockquote: 0,
+	expandable_blockquote: 0,
 	spoiler: 94,
 	custom_emoji: 99,
 };
