@@ -1,4 +1,3 @@
 {
-	"deno.enable": true,
-	"deno.lint": false
+  "deno.enable": true
 }

@@ -1,0 +1,16 @@
+{
+  "name": "@qz/grammy-entity",
+  "version": "0.0.5",
+  "exports": "./mod.ts",
+  "imports": {
+    "@grammyjs/types": "npm:@grammyjs/types@3.14.0",
+    "@std/assert": "jsr:@std/assert@1.0.4"
+  },
+  "publish": {
+    "exclude": [
+      ".github",
+      ".vscode",
+      "tests"
+    ]
+  }
+}
