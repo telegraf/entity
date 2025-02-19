@@ -27,6 +27,7 @@ export const HTML: Serialiser = (match: string, node?: Node) => {
 			return `<blockquote>${match}</blockquote>`;
 		case "mention":
 		case "custom_emoji":
+			return `<tg-emoji emoji-id="${node.custom_emoji_id}">${match}</tg-emoji>`;
 		case "hashtag":
 		case "cashtag":
 		case "bot_command":
