@@ -1,0 +1,17 @@
+{
+  "version": "4",
+  "remote": {
+    "https://deno.land/x/telegraf_types@v8.3.1/manage.ts": "74ee216d94b659c538a70cfe72b98c186e692c256b9929b729407ec4f10774f1",
+    "https://deno.land/x/telegraf_types@v8.3.1/markup.ts": "6e5445d7997bdabf47b4a25ed65114d45a928ae256067a043d18ad2a7712dec3",
+    "https://deno.land/x/telegraf_types@v8.3.1/message.ts": "956305b8672696349cdcfe8ec98ec54fce27b461b45d9d0fcfaf543795d2943d",
+    "https://deno.land/x/telegraf_types@v8.3.1/passport.ts": "19820e7d6c279521f8bc8912d6a378239f73d4ab525453808994b5f44ef95215",
+    "https://deno.land/x/telegraf_types@v8.3.1/payment.ts": "8b4ed7c9d3d387e05a67ad6899ff8c89bd844bec936ecd9f2573c20036c4b1f2"
+  },
+  "workspace": {
+    "packageJson": {
+      "dependencies": [
+        "npm:deno-bin@^1.31.3"
+      ]
+    }
+  }
+}

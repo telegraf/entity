@@ -2,7 +2,7 @@ import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 import type { Message, TextMessage, Tree, MessageEntity } from "./types.ts";
 
-// https://github.com/tdlib/td/blob/d79bd4b69403868897496da39b773ab25c69f6af/td/telegram/MessageEntity.cpp#L39
+// https://github.com/tdlib/td/blob/721300bcb4d0f2114505712f4dc6350af1ce1a09/td/telegram/MessageEntity.cpp#L39
 const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
 	mention: 50,
 	hashtag: 50,
@@ -22,6 +22,7 @@ const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
 	blockquote: 0,
 	spoiler: 94,
 	custom_emoji: 99,
+	expandable_blockquote: 0,
 };
 
 function findChildren(fromEntityIndex: number, parent: MessageEntity, entities: MessageEntity[]) {
