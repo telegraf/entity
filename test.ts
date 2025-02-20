@@ -41,6 +41,21 @@ Deno.test("URL entity inside bold must stringify to HTML correctly", () => {
 		}),
 		'<b>👉 Link :- </b><a href="https://example.com?x&y"><b>https://example.com?x&amp;y</b></a>',
 	);
+
+	assertEquals(
+		toHTML({
+			text: "👍",
+			entities: [
+				{
+					type: "custom_emoji",
+					offset: 0,
+					length: "👍".length,
+					custom_emoji_id: "5368324170671202286",
+				},
+			],
+		}),
+		'<tg-emoji emoji-id="5368324170671202286">👍</tg-emoji>',
+	);
 });
 
 Deno.test("URL entity inside bold must stringify to Markdown correctly", () => {
