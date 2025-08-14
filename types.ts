@@ -1,4 +1,4 @@
-import type { MessageEntity } from "https://deno.land/x/telegraf_types@v8.3.1/message.ts";
+import type { MessageEntity } from "https://deno.land/x/telegraf_types@v9.0.0/message.ts";
 
 export type { MessageEntity };
 

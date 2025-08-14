@@ -1,5 +1,5 @@
 import { build, emptyDir } from "https://deno.land/x/dnt@0.33.1/mod.ts";
-import pkg from "./package.json" assert { type: "json" };
+import pkg from "./package.json" with { type: "json" };
 
 const tag = Deno.env.get("GITHUB_REF");
 const version = tag ? tag.slice(11) : Deno.env.get("VERSION");
@@ -9,22 +9,28 @@ if (!version)
 
 await emptyDir("./.npm");
 
-// @ts-ignore
-delete pkg.main, delete pkg.types, delete pkg.scripts;
-
 await build({
 	entryPoints: ["./mod.ts"],
 	outDir: "./.npm",
 	shims: {},
 	test: false,
 	mappings: {
-		"https://deno.land/x/telegraf_types@v8.3.1/message.ts": {
+		"https://deno.land/x/telegraf_types@v9.0.0/message.ts": {
 			name: "@telegraf/types",
-			version: "^8.3.1",
+			version: "^9.0.0",
 		},
 	},
 	esModule: false,
-	package: { ...pkg, version },
+	package: {
+		name: pkg.name,
+		version,
+		description: pkg.description,
+		keywords: pkg.keywords,
+		author: pkg.author,
+		license: pkg.license,
+		repository: pkg.repository,
+		bugs: pkg.bugs,
+	},
 });
 
 // post build steps
