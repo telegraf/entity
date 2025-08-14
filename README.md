@@ -1,6 +1,6 @@
 # `@telegraf/entity` [![Deno shield](https://img.shields.io/static/v1?label=Built%20for&message=Deno&style=flat-square&logo=deno&labelColor=000&color=fff)](https://deno.land/x/telegraf_entity) [![Bun shield](https://img.shields.io/static/v1?label=Ready%20for&message=Bun&style=flat-square&logo=bun&labelColor=101115&color=fff)](https://npmjs.com/package/@telegraf/entity) [![NPM version](https://img.shields.io/npm/v/@telegraf/entity?color=e74625&style=flat-square)](https://npmjs.com/package/@telegraf/entity)
 
-Convert Telegram entities to HTML or Markdown.
+Convert Telegram entities to HTML or Markdown (and back).
 
 > ⚠️ Before you start using this module, consider using [`copyMessage`](https://core.telegram.org/bots/api#copymessage) instead.
 >
@@ -82,3 +82,25 @@ import { serialiseWith, escapers } from "@telegraf/entity";
 const serialise = serialiseWith(myHTMLSerialiser, escapers.HTML);
 serialise(ctx.message);
 ```
+
+## Parsing HTML and Markdown into entities
+
+We now have a fully Bot API-compliant parser for HTML and Markdown (MarkdownV2 not supported yet). This was ported over from tdlib, so it should parse exactly like Bot API does, and throw the same errors, but natively in JavaScript.
+
+This is quite an advanced usecase, and because it's just as strict as the official API, you will not be able to use this to leniently parse HTML or Markdown (for instance, to massage LLM output into entities for Telegram).
+
+Some usecases enabled by this:
+
+-   For Telegram client-like applications, which want to parse exactly like Telegram. It's quite trivial to translate the resulting entities into TL types for use with MTProto, for instance.
+-   The ability to statically check any piece of HTML or Markdown to ensure it's valid.
+-   Fold existing HTML/Markdown into entities, to be used with Telegraf's [fmt helpers](https://github.com/feathers-studio/telegraf-docs/blob/master/guide/formatting.md#fmt) which construct entities directly.
+
+```TS
+import { parse_html, parse_markdown } from "@telegraf/entity";
+
+const parsed = parse_html(html); // { text: string, entities: MessageEntity[] }
+// or
+const parsed = parse_markdown(markdown); // { text: string, entities: MessageEntity[] }
+```
+
+Thanks to [codinary.org](https://codinary.org) for commissioning this feature.

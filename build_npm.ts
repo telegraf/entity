@@ -14,6 +14,9 @@ await build({
 	outDir: "./.npm",
 	shims: {},
 	test: false,
+	compilerOptions: {
+		lib: ["es2022"],
+	},
 	mappings: {
 		"https://deno.land/x/telegraf_types@v9.0.0/message.ts": {
 			name: "@telegraf/types",

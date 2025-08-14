@@ -1,6 +1,10 @@
 import * as serialisers from "./serialisers.ts";
 import * as escapers from "./escapers.ts";
 import type { Message, TextMessage, Tree, MessageEntity } from "./types.ts";
+import { Parser } from "./parser/index.ts";
+
+export const parse_html = Parser.parse_html;
+export const parse_markdown = Parser.parse_markdown;
 
 // https://github.com/tdlib/td/blob/721300bcb4d0f2114505712f4dc6350af1ce1a09/td/telegram/MessageEntity.cpp#L39
 const TYPE_PRIORITY: Record<MessageEntity["type"], number> = {
